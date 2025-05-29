@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SynthCore</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="https://image.ibb.co/fOur3b/favicon.png"/>
+	<!-- Add any additional CSS or JS files here -->
+    <link rel="stylesheet" type="text/css" href="assets/synthcore.css" />
+    <link rel="icon" type="image/png" sizes="16x16"  href="assets/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+    <script type="text/javascript" src="assets/synthcore.js"></script>
+</head>
+<body>
+    <img src="assets/big-logo-trans.png" width="350">
+	<!-- Top of page with dropdown menus and preset buttons -->
+	<div class="top-section">
+        <label for="selectMidiChannel">MIDI Ch:</label>
+		<select id="selectMidiChannel" size="1" onchange="setMidiChannel(event)" name="midi-channel" disabled>
+            <option value="1" selected>1</option>
+            <!-- <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option> -->
+		</select>
+        <br>
+		<!-- Dropdown menus for MIDI input controller selection -->
+		<label for="selectInputPort">MIDI In:</label>
+		<select id="selectInputPort" name="midi-in-controler" size="1" onchange="onChangeInputPort()" style="margin-right: 10px;">
+		</select>
+		<!-- Dropdown menu for MIDI output selection -->
+		<label for="selectOutputPort"> MIDI Out:</label>
+		<select id="selectOutputPort" size="1" onchange="onChangeOutputPort()" name="midi-out">
+		</select>
+        <label for="selectPreset"> Preset:</label>
+		<select id="selectPreset" size="1" onchange="onPresetChange(event)" name="preset-out">
+            <option value="0">Fifth [Legato]</option>
+            <option value="1" >Quad [Para]</option>
+            <option value="2">Plus [Para]</option>
+            <option value="3">Minus [Para]</option>
+            <option value="4">Decay [Mono]</option>
+            <option value="5">PWM [Legato]</option>
+            <option value="6">Saw [Para]</option>
+            <option value="7" selected>Initial [Legato]</option>
+		</select>
+        <p id="pitch" style="display: inline-block; margin-right: 18px; margin-left:10px;">Pitch Bend: <span id="spanPB">-</span> </p>
+        <p id="velocity" style="display: inline-block; margin-right: 18px;">Velocity: <span id="spanVelocity">-</span> </p>
+        <p id="mod" style="display: inline-block; margin-right: 18px;">Modulation: <span id="spanMODULATION">-</span> </p>
+        <p id="sustain" style="display: inline-block; margin-right: 18px;">Sustain: <span id="spanSUSTAIN_PEDAL">-</span> </p>
+		<!-- Preset buttons -->
+    </br></br>
+        <hr>
+        <input type="file" id="fileImportAll" style="display:none" accept=".json"/>
+        <button class="options-button" value="All" onclick="fileImportAll()">Load Preset</button>
+        <button class="options-button" value="All" onclick="fileExport()" style="margin-right: 30px;">Save Preset</button>
+		<!-- Recall buttons -->
+        Recall: 
+        <button class="mem-button-load" value="#1" onclick="loadControllers(8)">1</button>
+        <button class="mem-button-load" value="#2" onclick="loadControllers(9)">2</button>
+        <button class="mem-button-load" value="#3" onclick="loadControllers(10)">3</button>
+        <button class="mem-button-load" value="#4" onclick="loadControllers(11)">4</button>
+        <button class="mem-button-load" value="#5" onclick="loadControllers(12)">5</button>
+        <button class="mem-button-load" value="#6" onclick="loadControllers(13)">6</button>
+        <button class="mem-button-load" value="#7" onclick="loadControllers(14)">7</button>
+        <button class="mem-button-load" value="#8" onclick="loadControllers(15)" style="margin-right: 30px;">8</button>
+        <!-- Store buttons -->
+        Store: 
+        <button class="mem-button" value="#1" onclick="saveControllers(8)">1</button>
+        <button class="mem-button" value="#2" onclick="saveControllers(9)">2</button>
+        <button class="mem-button" value="#3" onclick="saveControllers(10)">3</button>
+        <button class="mem-button" value="#4" onclick="saveControllers(11)">4</button>
+        <button class="mem-button" value="#5" onclick="saveControllers(12)">5</button>
+        <button class="mem-button" value="#6" onclick="saveControllers(13)">6</button>
+        <button class="mem-button" value="#7" onclick="saveControllers(14)">7</button>
+        <button class="mem-button" value="#8" onclick="saveControllers(15)">8</button>
+
+        <!-- Additional buttons -->
+        <span class="random-bttns">
+            <button class="random-button-sustain" value="Sustain" onclick="sustain()">Sustain</button>
+            <button class="random-button" value="Random Ctrl" onclick="setAllRandom()">Randomize</button>
+            <button class="random-button" value="Reset" onclick="panic()">MIDI panic</button>
+        </span>
+	</div>
+	<!-- Main content with vertical sliders -->
+    <hr>
+    
+	<div class="slider-section">
+		<!-- Column 1 -->
+		<div class="slider-column">
+            <span class="dotLeft"></span>
+            <span class="dotRight"></span>
+            <h3>Osc I</h3>
+			<label for="inputOSC_1_WAVE">Wave</label>
+            <p class="desc">[Saw|-|Tri|Pls|Sqr]</p>
+			<input type="range" id="inputOSC_1_WAVE" name="slider1" min="0" max="127" step="1" oninput="onChangeControlChange(OSC_1_WAVE, value)">
+            <span id="spanOSC_1_WAVE">-</span></input>
+            <hr>
+            <label for="inputOSC_1_SHAPE">Shape**</label>
+			<input type="range" id="inputOSC_1_SHAPE" name="slider2" min="0" max="127" step="1" oninput="onChangeControlChange(OSC_1_SHAPE, value)">
+			<span id="spanOSC_1_SHAPE">-</span>
+            <hr>
+            <label for="inputOSC_1_MORPH">Morph**</label>
+			<input type="range" id="inputOSC_1_MORPH" name="slider3" min="0" max="127" step="1" oninput="onChangeControlChange(OSC_1_MORPH, value)">
+            <span id="spanOSC_1_MORPH">-</span>
+            <hr>
+            <label for="inputMIXER_SUB_OSC">Sub Osc***</label>
+            <input type="range" id="inputMIXER_SUB_OSC" name="slider35" min="0" max="127" step="1">
+            <span id="spanMIXER_SUB_OSC" >-</span>
+            <span class="dotLeftB"></span>
+            <span class="dotRightB"></span>
+        </div>
+		<!-- Column 2 -->
+		<div class="slider-column">
+            <span class="dotLeft"></span>
+            <span class="dotRight"></span>
+            <h3>Osc II</h3>
+            <label for="inputOSC_2_WAVE">Wave*</label>
+            <p class="desc">[Saw|-|Tri|Nos|Sqr]</p>
+			<input type="range" id="inputOSC_2_WAVE" name="slider4" min="0" max="127" step="1" oninput="onChangeControlChange(OSC_2_WAVE, value)">
+			<span id="spanOSC_2_WAVE">-</span>
+            <hr>
+            <label for="inputOSC_2_COARSE">Coarse*</label>
+			<input type="range" id="inputOSC_2_COARSE" name="slider5" min="0" max="127" step="1" oninput="onChangeControlChange(OSC_2_COARSE, value)">
+			<span id="spanOSC_2_COARSE">-</span>
+            <hr>
+            <label for="inputOSC_2_FINE">Fine*</label>
+			<input type="range" id="inputOSC_2_FINE" name="slider6" min="0" max="127" step="1" oninput="onChangeControlChange(OSC_2_FINE, value)">
+            <span id="spanOSC_2_FINE">-</span>
+            <hr>
+            <label for="inputMIXER_OSC_MIX">Osc Mix* </label>
+            <p class="desc">[1|2]</p>
+            <input type="range" id="inputMIXER_OSC_MIX" name="slider36" min="0" max="127" step="1" oninput="onChangeControlChange(MIXER_OSC_MIX, value)">
+            <span id="spanMIXER_OSC_MIX">-</span>
+            <span class="dotLeftB"></span>
+            <span class="dotRightB"></span>
+        </div>
+        <!-- Column 3 -->
+        <div class="slider-column">
+            <span class="dotLeft"></span>
+            <span class="dotRight"></span>
+            <h3>Filter</h3>
+            <label for="inputFILTER_CUTOFF">Cutoff</label>
+            <input type="range" id="inputFILTER_CUTOFF" name="slider7" min="0" max="127" step="1" oninput="onChangeControlChange(FILTER_CUTOFF, value)">
+            <span id="spanFILTER_CUTOFF">-</span>
+            <hr>
+            <label for="inputFILTER_RESO">Resonance</label>
+            <input type="range" id="inputFILTER_RESO" name="slider8" min="0" max="127" step="1" oninput="onChangeControlChange(FILTER_RESO, value)">
+            <span id="spanFILTER_RESO">-</span>
+            <hr>
+            <label for="inputFILTER_EG_AMT">EG Amp</label>
+            <input type="range" id="inputFILTER_EG_AMT" name="slider9" min="0" max="127" step="1" oninput="onChangeControlChange(FILTER_EG_AMT, value)">
+            <span id="spanFILTER_EG_AMT">-</span>
+            <hr>
+            <label for="inputFILTER_KEY_TRK">Key Track </label>
+            <p class="desc">[0.0|0.5|1.0]</p>
+            <input type="range" id="inputFILTER_KEY_TRK" name="slider10" min="0" max="127" step="1" oninput="onChangeControlChange(FILTER_KEY_TRK, value)">
+            <span id="spanFILTER_KEY_TRK">-</span>
+            <span class="dotLeftB"></span>
+            <span class="dotRightB"></span>
+        </div>
+        <!-- Column 4 -->
+        <div class="slider-column">
+            <span class="dotLeft"></span>
+            <span class="dotRight"></span>
+            <h3>EG</h3>
+            <label for="inputEG_ATTACK">Attack</label>
+            <input type="range" id="inputEG_ATTACK" name="slider11" min="0" max="127" step="1" oninput="onChangeControlChange(EG_ATTACK, value)">
+            <span id="spanEG_ATTACK">-</span>
+            <hr>
+            <label for="inputEG_DECAY">Decay</label>
+            <input type="range" id="inputEG_DECAY" name="slider12" min="0" max="127" step="1" oninput="onChangeControlChange(EG_DECAY, value)">
+            <span id="spanEG_DECAY">-</span>
+            <hr>
+            <label for="inputEG_SUSTAIN">Sustain</label>
+            <input type="range" id="inputEG_SUSTAIN" name="slider13" min="0" max="127" step="1" oninput="onChangeControlChange(EG_SUSTAIN, value)">
+            <span id="spanEG_SUSTAIN">-</span>
+            <hr>
+            <label for="inputEG_RELEASE">Release</label>
+            <input type="range" id="inputEG_RELEASE" name="slider14" min="0" max="127" step="1" oninput="onChangeControlChange(EG_RELEASE, value)">
+            <span id="spanEG_RELEASE">-</span>
+            <hr>
+            <label for="inputEG_OSC_AMT">Osc Amt</label>
+            <input type="range" id="inputEG_OSC_AMT" name="slider15" min="0" max="127" step="1" oninput="onChangeControlChange(EG_OSC_AMT, value)">
+            <span id="spanEG_OSC_AMT">-</span>
+            <hr>
+            <label for="inputEG_OSC_DST">Osc Dst </label>
+            <p class="desc">[P|2P|1S]</p>
+            <input type="range" id="inputEG_OSC_DST" name="slider16" min="0" max="127" step="1" oninput="onChangeControlChange(EG_OSC_DST, value)">
+            <span id="spanEG_OSC_DST">-</span>
+            <span class="dotLeftB"></span>
+            <span class="dotRightB"></span>
+        </div>
+        <!-- Column 5 -->
+        <div class="slider-column">
+            <span class="dotLeft"></span>
+            <span class="dotRight"></span>
+            <h3>LFO</h3>
+            <label for="inputLFO_WAVE">Wave</label>
+            <p class="desc">[T1|T2|Saw|SH|Sqr]</p>
+            <input type="range" id="inputLFO_WAVE" name="slider17" min="0" max="127" step="1" oninput="onChangeControlChange(LFO_WAVE, value)">
+            <span id="spanLFO_WAVE">-</span>
+            <hr>
+            <label for="inputLFO_RATE">Rate</label>
+            <input type="range" id="inputLFO_RATE" name="slider18" min="0" max="127" step="1" oninput="onChangeControlChange(LFO_RATE, value)">
+            <span id="spanLFO_RATE">-</span>
+            <hr>
+            <label for="inputLFO_DEPTH">Depth</label>
+            <input type="range" id="inputLFO_DEPTH" name="slider19" min="0" max="127" step="1" oninput="onChangeControlChange(LFO_DEPTH, value)">
+            <span id="spanLFO_DEPTH">-</span>
+            <hr>
+            <label for="inputLFO_FADE_TIME">Fade Time</label>
+            <input type="range" id="inputLFO_FADE_TIME" name="slider20" min="0" max="127" step="1" oninput="onChangeControlChange(LFO_FADE_TIME, value)">
+            <span id="spanLFO_FADE_TIME">-</span>
+            <hr>
+            <label for="inputLFO_OSC_AMT">Osc Amt</label>
+            <input type="range" id="inputLFO_OSC_AMT" name="slider21" min="0" max="127" step="1" oninput="onChangeControlChange(LFO_OSC_AMT, value)">
+            <span id="spanLFO_OSC_AMT">-</span>
+            <hr>
+            <label for="inputLFO_OSC_DST">Osc Dst</label>
+            <p class="desc">[P|2P|1S]</p>
+            <input type="range" id="inputLFO_OSC_DST" name="slider22" min="0" max="127" step="1" oninput="onChangeControlChange(LFO_OSC_DST , value)">
+            <span id="spanLFO_OSC_DST">-</span>
+            <hr>
+            <label for="inputLFO_FILTER_AMT">Filter Amt</label>
+            <input type="range" id="inputLFO_FILTER_AMT" name="slider23" min="0" max="127" step="1" oninput="onChangeControlChange(LFO_FILTER_AMT, value)">
+            <span id="spanLFO_FILTER_AMT">-</span>
+            <span class="dotLeftB"></span>
+            <span class="dotRightB"></span>
+        </div>
+        <!-- Column 6 -->
+        <div class="slider-column">
+            <span class="dotLeft"></span>
+            <span class="dotRight"></span>
+            <h3>Amp</h3>
+            <label for="inputAMP_LEVEL">Level</label>
+            <input type="range" id="inputAMP_LEVEL" name="slider24" min="0" max="127" step="1" oninput="onChangeControlChange(AMP_LEVEL, value)">
+            <span id="spanAMP_LEVEL">-</span>
+            <hr>
+            <label for="inputAMP_ATTACK">Attack</label>
+            <input type="range" id="inputAMP_ATTACK" name="slider25" min="0" max="127" step="1" oninput="onChangeControlChange(AMP_ATTACK, value)">
+            <span id="spanAMP_ATTACK">-</span>
+            <hr>
+            <label for="inputAMP_DECAY">Decay</label>
+            <input type="range" id="inputAMP_DECAY" name="slider26" min="0" max="127" step="1" oninput="onChangeControlChange(AMP_DECAY, value)">
+            <span id="spanAMP_DECAY">-</span>
+            <hr>
+            <label for="inputAMP_SUSTAIN">Sustain</label>
+            <input type="range" id="inputAMP_SUSTAIN" name="slider27" min="0" max="127" step="1" oninput="onChangeControlChange(AMP_SUSTAIN, value)">
+            <span id="spanAMP_SUSTAIN">-</span>
+            <hr>
+            <label for="inputAMP_RELEASE">Release</label>
+            <input type="range" id="inputAMP_RELEASE" name="slider28" min="0" max="127" step="1" oninput="onChangeControlChange(AMP_RELEASE, value)">
+            <span id="spanAMP_RELEASE">-</span>
+            <span class="dotLeftB"></span>
+            <span class="dotRightB"></span>
+        </div>
+        <!-- Column 7 -->
+            <div class="slider-column">
+            <span class="dotLeft"></span>
+            <span class="dotRight"></span>
+            <h3>Chorus</h3>
+            <label for="inputCHORUS_MODE">Mode</label>
+            <p class="desc">[Off|S|PS]</p>
+            <input type="range" id="inputCHORUS_MODE" name="slider29" min="0" max="127" step="1" oninput="onChangeControlChange(CHORUS_MODE, value)">
+            <span id="spanCHORUS_MODE" >-</span>
+            <hr>
+            <label for="inputCHORUS_RATE">Rate</label>
+            <input type="range" id="inputCHORUS_RATE" name="slider30" min="0" max="127" step="1" oninput="onChangeControlChange(CHORUS_RATE, value)">
+            <span id="spanCHORUS_RATE" >-</span>
+            <hr>
+            <label for="inputCHORUS_DEPTH">Depth</label>
+            <input type="range" id="inputCHORUS_DEPTH" name="slider31" min="0" max="127" step="1" oninput="onChangeControlChange(CHORUS_DEPTH, value)">
+            <span id="spanCHORUS_DEPTH" >-</span>
+            <hr>
+            <label for="inputCHORUS_DLY_TIME">Delay Time</label>
+            <input type="range" id="inputCHORUS_DLY_TIME" name="slider32" min="0" max="127" step="1" oninput="onChangeControlChange(CHORUS_DLY_TIME, value)">
+            <span id="spanCHORUS_DLY_TIME" >-</span>
+            <hr>
+            <label for="inputP_BEND_RANGE">Pitch Range</label>
+            <input type="range" id="inputP_BEND_RANGE" name="slider33" min="0" max="127" step="1" oninput="onChangeControlChange(P_BEND_RANGE, value)">
+            <span id="spanP_BEND_RANGE" >-</span>
+            <hr>
+            <label for="inputCHORUS_BYPASS">Bypass </label>
+            <p class="desc">[Off|On]</p>
+            <input type="range" id="inputCHORUS_BYPASS" name="slider34" min="0" max="127" step="1" oninput="onChangeControlChange(CHORUS_BYPASS, value)">
+            <span id="spanCHORUS_BYPASS" >-</span>
+            <span class="dotLeftB"></span>
+            <span class="dotRightB"></span>
+        </div>
+        <!-- Column 8 -->
+        <div class="slider-column">
+            <span class="dotLeft"></span>
+            <span class="dotRight"></span>
+            <h3>Mix</h3>
+            <label for="inputVOICE_MODE">Voice</label>
+            <p class="desc">[Par|Mon|Lgt]</p>
+            <input type="range" id="inputVOICE_MODE" name="slider37" min="0" max="127" step="1" oninput="onChangeControlChange(VOICE_MODE, value)">
+            <span id="spanVOICE_MODE" >-</span>
+            <hr>
+            <label for="inputPORTAMENTO">Portamento</label>
+            <input type="range" id="inputPORTAMENTO" name="slider38" min="0" max="127" step="1" oninput="onChangeControlChange(PORTAMENTO, value)">
+            <span id="spanPORTAMENTO" >-</span>
+            <span class="dotLeftB"></span>
+            <span class="dotRightB"></span>
+        </div>
+    </div>
+    <br><br><br>
+    <div class="slider-column">
+        <table>
+            <tr>
+              <td colspan="2">Transpose</td>
+              <td><input id="inputTranspose" type="range" min="-36" max="36" step="12" oninput="onChangeTranspose(value)"></td>
+              <td><span id="spanTranspose">0</span></td>
+            </tr>   
+          </table>
+        
+          <table>
+            <tr>
+              <td class="keyh"></td>
+              <td class="keyb" onContextmenu="return false" onmousedown="noteOn(49)" onmouseup="noteOff(49)"
+                ontouchstart="noteOn(49)" ontouchend="noteOff(49)">C#3</td>
+              <td class="keyb" onContextmenu="return false" onmousedown="noteOn(51)" onmouseup="noteOff(51)"
+                ontouchstart="noteOn(51)" ontouchend="noteOff(51)">D#3</td>
+              <td class="keyp"></td>
+              <td class="keyb" onContextmenu="return false" onmousedown="noteOn(54)" onmouseup="noteOff(54)"
+                ontouchstart="noteOn(54)" ontouchend="noteOff(54)">F#3</td>
+              <td class="keyb" onContextmenu="return false" onmousedown="noteOn(56)" onmouseup="noteOff(56)"
+                ontouchstart="noteOn(56)" ontouchend="noteOff(56)">G#3</td>
+              <td class="keyb" onContextmenu="return false" onmousedown="noteOn(58)" onmouseup="noteOff(58)"
+                ontouchstart="noteOn(58)" ontouchend="noteOff(58)">A#3</td>
+              <td class="keyp"></td>
+              <td class="keyb" onContextmenu="return false" onmousedown="noteOn(61)" onmouseup="noteOff(61)"
+                ontouchstart="noteOn(61)" ontouchend="noteOff(61)">C#4</td>
+              <td class="keyb" onContextmenu="return false" onmousedown="noteOn(63)" onmouseup="noteOff(63)"
+                ontouchstart="noteOn(63)" ontouchend="noteOff(63)">D#4</td>
+              <td class="keyp"></td>
+              <td class="keyb" onContextmenu="return false" onmousedown="noteOn(66)" onmouseup="noteOff(66)"
+                ontouchstart="noteOn(66)" ontouchend="noteOff(66)">F#4</td>
+              <td class="keyb" onContextmenu="return false" onmousedown="noteOn(68)" onmouseup="noteOff(68)"
+                ontouchstart="noteOn(68)" ontouchend="noteOff(68)">G#4</td>
+              <td class="keyb" onContextmenu="return false" onmousedown="noteOn(70)" onmouseup="noteOff(70)"
+                ontouchstart="noteOn(70)" ontouchend="noteOff(70)">A#4</td>
+              <td class="keyp"></td>
+              <td class="keyh"></td>
+            </tr>
+          </table>
+        
+          <table>
+            <tr>
+              <td class="key" onContextmenu="return false" onmousedown="noteOn(48)" onmouseup="noteOff(48)"
+                ontouchstart="noteOn(48)" ontouchend="noteOff(48)">C3</td>
+              <td class="key" onContextmenu="return false" onmousedown="noteOn(50)" onmouseup="noteOff(50)"
+                ontouchstart="noteOn(50)" ontouchend="noteOff(50)">D3</td>
+              <td class="key" onContextmenu="return false" onmousedown="noteOn(52)" onmouseup="noteOff(52)"
+                ontouchstart="noteOn(52)" ontouchend="noteOff(52)">E3</td>
+              <td class="key" onContextmenu="return false" onmousedown="noteOn(53)" onmouseup="noteOff(53)"
+                ontouchstart="noteOn(53)" ontouchend="noteOff(53)">F3</td>
+              <td class="key" onContextmenu="return false" onmousedown="noteOn(55)" onmouseup="noteOff(55)"
+                ontouchstart="noteOn(55)" ontouchend="noteOff(55)">G3</td>
+              <td class="key" onContextmenu="return false" onmousedown="noteOn(57)" onmouseup="noteOff(57)"
+                ontouchstart="noteOn(57)" ontouchend="noteOff(57)">A3</td>
+              <td class="key" onContextmenu="return false" onmousedown="noteOn(59)" onmouseup="noteOff(59)"
+                ontouchstart="noteOn(59)" ontouchend="noteOff(59)">B3</td>
+              <td class="key" onContextmenu="return false" onmousedown="noteOn(60)" onmouseup="noteOff(60)"
+                ontouchstart="noteOn(60)" ontouchend="noteOff(60)">C4</td>
+              <td class="key" onContextmenu="return false" onmousedown="noteOn(62)" onmouseup="noteOff(62)"
+                ontouchstart="noteOn(62)" ontouchend="noteOff(62)">D4</td>
+              <td class="key" onContextmenu="return false" onmousedown="noteOn(64)" onmouseup="noteOff(64)"
+                ontouchstart="noteOn(64)" ontouchend="noteOff(64)">E4</td>
+              <td class="key" onContextmenu="return false" onmousedown="noteOn(65)" onmouseup="noteOff(65)"
+                ontouchstart="noteOn(65)" ontouchend="noteOff(65)">F4</td>
+              <td class="key" onContextmenu="return false" onmousedown="noteOn(67)" onmouseup="noteOff(67)"
+                ontouchstart="noteOn(67)" ontouchend="noteOff(67)">G4</td>
+              <td class="key" onContextmenu="return false" onmousedown="noteOn(69)" onmouseup="noteOff(69)"
+                ontouchstart="noteOn(69)" ontouchend="noteOff(69)">A4</td>
+              <td class="key" onContextmenu="return false" onmousedown="noteOn(71)" onmouseup="noteOff(71)"
+                ontouchstart="noteOn(71)" ontouchend="noteOff(71)">B4</td>
+              <td class="key" onContextmenu="return false" onmousedown="noteOn(72)" onmouseup="noteOff(72)"
+                ontouchstart="noteOn(72)" ontouchend="noteOff(72)">C5</td>
+            </tr>
+          </table>
+    </div>
+
+<div id="footer">
+  Made with ❤ by <a href="https://github.com/Omodaka9375" target="_blank">Omodaka</a>
+</div>
+</body>
+</html>
