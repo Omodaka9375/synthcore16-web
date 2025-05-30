@@ -1,6 +1,7 @@
 const APP_NAME_VERSION = "SynthCore16 v1.0";
 
 var MIDI_CH          = 1;
+const MIDI_CHANNEL   = 0x81;
 const NOTE_OFF       = 0x80;
 const NOTE_ON        = 0x90;
 const CONTROL_CHANGE = 0xB0;
@@ -78,7 +79,7 @@ const PRESET_NUMBER_INITIAL = 7;
 var transpose = 0;
 var fileReaderImportAll = new FileReader();
 var fileReaderImportCurrent = new FileReader();
-
+var sustained = false;
 var midi       = null;
 var midiInputs = null;
 var midiInput1 = null;
@@ -220,6 +221,26 @@ const controllersInLocalStorage = [
   CHORUS_BYPASS,
 ];
 
+const midiChannelMap = new Map([
+  [0, 0],
+  [1, 1],
+  [2, 2],
+  [3, 3],
+  [4, 4],
+  [5, 5],
+  [6, 6],
+  [7, 7],
+  [8, 8],
+  [9, 9],
+  [10,0xA],
+  [11,0xB],
+  [12,0xC],
+  [13,0xD],
+  [14,0xE],
+  [15,0xF],
+  [16,0x10],
+])
+
 // PRESET                       #0 #1 #2 #3  #4  #5 #6  #7   
 presetControllers[OSC_1_WAVE] = [0, 0, 0, 0, 0, 96, 0, 0];
 presetControllers[OSC_1_SHAPE] = [0, 0, 0, 0, 0, 0, 0, 0];
@@ -276,8 +297,6 @@ document.addEventListener("touchstart", function(event) {
   }
 })
 
-var sustained = false;
-
 document.addEventListener("keypress", (e) => {
   if (e.repeat) return;
   onKeyPress(e.key);
@@ -297,12 +316,14 @@ window.onload = function() {
 
   var result = restoreControllers();
   if (!result) {
+
     onChangeTranspose(0);
     preset(7);
   }
 
   document.getElementById("fileImportAll").addEventListener("change", fileImportAllChange, false);
   fileReaderImportAll.addEventListener("load", fileReaderImportAllLoad, false);
+  
 }
 
 function sleep(msec) {
@@ -317,13 +338,12 @@ function panic() {
   sustained = false;
   if (midiOutput) {
     midiOutput.send([(CONTROL_CHANGE | MIDI_CH), ALL_NOTES_OFF, 0]);
-    sleep(10);
+    sleep(100);
     midiOutput.send([(CONTROL_CHANGE | MIDI_CH), ALL_SOUND_OFF, 0]);
-    sleep(10);
+    sleep(100);
     midiOutput.send([(CONTROL_CHANGE | MIDI_CH), RESET_ALL_CTRLS, 0]);
-    sleep(10);
+    sleep(100);
   }
-
   document.getElementById("spanPB").innerHTML = "+0";
   document.getElementById("spanMODULATION").innerHTML = "0";
   //document.getElementById("spanEXPRESSION").innerHTML = "127";
@@ -374,9 +394,21 @@ function afterChangeOsc1WaveOrVoiceMode() {
   }
 }
 
-function setMidiChannel(event){
+function setMidiChannel(midichannel){
+  // for (let [key, value] of midiChannelMap.entries()) {
+  //   if (key == midichannel){
+      midiOutput.send([(MIDI_CHANNEL | MIDI_CH), midichannel, 120]);
+      MIDI_CH = midichannel;
+      console.log("MIDI Channel: " + MIDI_CH);
+    //   return;
+    // }
+  //}
+}
+
+function onSetMidiChannel(event){
   var selectElement = event.target;
-  MIDI_CH = parseInt(selectElement.value);
+  var chan = parseInt(selectElement.value);
+  setMidiChannel(chan);
 }
 
 function onMIDIMessage(event) {
@@ -555,7 +587,7 @@ function onChangeControlChange(number, value) {
   }
   if (midiOutput) {
     midiOutput.send([(CONTROL_CHANGE | MIDI_CH), number, parseInt(value)]);
-    sleep(10);
+    sleep(100);
   }
 }
 
@@ -632,15 +664,15 @@ function saveControllers(number) {
 
 function noteOn(noteNumber) {
   if (midiOutput) {
-    midiOutput.send([(NOTE_ON | MIDI_CH), noteNumber + transpose, 100]);
-    document.getElementById("spanVelocity").innerHTML = 100;
+    midiOutput.send([(NOTE_ON | MIDI_CH), noteNumber + transpose, 120]);
+    document.getElementById("spanVelocity").innerHTML = 120;
     sleep(50);
   }
 }
 
 function noteOff(noteNumber) {
   if (midiOutput) {
-    midiOutput.send([(NOTE_OFF | MIDI_CH), noteNumber + transpose, 64]);
+    midiOutput.send([(NOTE_OFF | MIDI_CH), noteNumber + transpose, 120]);
     sleep(50);
   }
 }
@@ -838,7 +870,6 @@ function onKeyPress(keypress) {
   }
 
   if(keypress == "."){
-    panic()
     setAllRandom()
     return;
   }
