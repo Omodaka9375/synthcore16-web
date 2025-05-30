@@ -16,26 +16,27 @@
     <img src="assets/big-logo-trans.png" width="350">
 	<!-- Top of page with dropdown menus and preset buttons -->
 	<div class="top-section">
-        <label for="selectMidiChannel">MIDI Ch:</label>
-		<select id="selectMidiChannel" size="1" onchange="setMidiChannel(event)" name="midi-channel" disabled>
-            <option value="1" selected>1</option>
-            <!-- <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="13">13</option>
-            <option value="14">14</option>
-            <option value="15">15</option>
-            <option value="16">16</option> -->
+    <!-- <label for="selectMidiChannel">MIDI Ch:</label>
+		<select id="selectMidiChannel" size="1" onchange="onSetMidiChannel(event)" name="midi-channel" disabled>
+            <option value="0">1</option>
+            <option value="1">2</option>
+            <option value="2">3</option>
+            <option value="3">4</option>
+            <option value="4" selected>5</option>
+            <option value="5">6</option>
+            <option value="6">7</option>
+            <option value="7">8</option>
+            <option value="8">9</option>
+            <option value="9">10</option>
+            <option value="10">11</option>
+            <option value="11">12</option>
+            <option value="12">13</option>
+            <option value="13">14</option>
+            <option value="14">15</option>
+            <option value="15">16</option>
+0
 		</select>
-        <br>
+        <br> -->
 		<!-- Dropdown menus for MIDI input controller selection -->
 		<label for="selectInputPort">MIDI In:</label>
 		<select id="selectInputPort" name="midi-in-controler" size="1" onchange="onChangeInputPort()" style="margin-right: 10px;">
@@ -58,6 +59,7 @@
         <p id="pitch" style="display: inline-block; margin-right: 18px; margin-left:10px;">Pitch Bend: <span id="spanPB">-</span> </p>
         <p id="velocity" style="display: inline-block; margin-right: 18px;">Velocity: <span id="spanVelocity">-</span> </p>
         <p id="mod" style="display: inline-block; margin-right: 18px;">Modulation: <span id="spanMODULATION">-</span> </p>
+        <!-- <p id="sustain" style="display: inline-block; margin-right: 18px;">Expression: <span id="spanEXPRESSION">-</span> </p> -->
         <p id="sustain" style="display: inline-block; margin-right: 18px;">Sustain: <span id="spanSUSTAIN_PEDAL">-</span> </p>
 		<!-- Preset buttons -->
     </br></br>
