@@ -1,6 +1,6 @@
 const APP_NAME_VERSION = "SynthCore16 v1.0";
 
-var MIDI_CH          = 1;
+var MIDI_CH          = 0x0;
 const MIDI_CHANNEL   = 0x81;
 const NOTE_OFF       = 0x80;
 const NOTE_ON        = 0x90;
@@ -77,6 +77,8 @@ const SP_PROG_CHG_15  = 119;
 const PRESET_NUMBER_INITIAL = 7;
 
 var transpose = 0;
+var transposeUI = 0;
+var octave = 0;
 var fileReaderImportAll = new FileReader();
 var fileReaderImportCurrent = new FileReader();
 var sustained = false;
@@ -118,8 +120,7 @@ const keyToNoteMap = new Map([
   ["i", 66],
   ["o", 68],
   ["p", 70],
-
-])
+]);
 
 const controlNumberToStringMap = new Map([
   [OSC_1_WAVE, "OSC_1_WAVE" ],
@@ -222,16 +223,16 @@ const controllersInLocalStorage = [
 ];
 
 const midiChannelMap = new Map([
-  [0, 0],
-  [1, 1],
-  [2, 2],
-  [3, 3],
-  [4, 4],
-  [5, 5],
-  [6, 6],
-  [7, 7],
-  [8, 8],
-  [9, 9],
+  [0, 0x0],
+  [1, 0x1],
+  [2, 0x2],
+  [3, 0x3],
+  [4, 0x4],
+  [5, 0x5],
+  [6, 0x6],
+  [7, 0x7],
+  [8, 0x8],
+  [9, 0x9],
   [10,0xA],
   [11,0xB],
   [12,0xC],
@@ -239,6 +240,16 @@ const midiChannelMap = new Map([
   [14,0xE],
   [15,0xF],
   [16,0x10],
+])
+
+const octaveToSemitoneMap = new Map([
+  [3, 36],
+  [2, 24],
+  [1, 12],
+  [0, 0],
+  [-1, -12],
+  [-2, -24],
+  [-3, -36],
 ])
 
 // PRESET                       #0 #1 #2 #3  #4  #5 #6  #7   
@@ -316,8 +327,8 @@ window.onload = function() {
 
   var result = restoreControllers();
   if (!result) {
-
-    onChangeTranspose(0);
+    octave = 0;
+    changeOctave()
     preset(7);
   }
 
@@ -344,6 +355,7 @@ function panic() {
     midiOutput.send([(CONTROL_CHANGE | MIDI_CH), RESET_ALL_CTRLS, 0]);
     sleep(100);
   }
+  resetKeys();
   document.getElementById("spanPB").innerHTML = "+0";
   document.getElementById("spanMODULATION").innerHTML = "0";
   //document.getElementById("spanEXPRESSION").innerHTML = "127";
@@ -395,14 +407,16 @@ function afterChangeOsc1WaveOrVoiceMode() {
 }
 
 function setMidiChannel(midichannel){
-  // for (let [key, value] of midiChannelMap.entries()) {
-  //   if (key == midichannel){
-      midiOutput.send([(MIDI_CHANNEL | MIDI_CH), midichannel, 120]);
-      MIDI_CH = midichannel;
-      console.log("MIDI Channel: " + MIDI_CH);
-    //   return;
-    // }
-  //}
+  for (let [key, value] of midiChannelMap.entries()) {
+     if (key === midichannel){
+        panic();
+        midiOutput.send([(MIDI_CHANNEL | MIDI_CH), value, 0]);
+        MIDI_CH = value;
+        sleep(100);
+        console.log("MIDI Channel: " + midichannel+1);
+        return;
+     }
+  }
 }
 
 function onSetMidiChannel(event){
@@ -550,7 +564,6 @@ function onChangeOutputPort() {
     panic();
     var result = restoreControllers();
     if (!result) {
-      onChangeTranspose(0);
       preset(7);
     }
   }
@@ -625,19 +638,37 @@ function rand(n) {
   return Math.floor(Math.random() * n);
 }
 
-function onChangeTranspose(value) {
-  document.getElementById("inputTranspose").value = parseInt(value);
-  if (value > 0) {
-    document.getElementById("spanTranspose").innerHTML = "+" + String(value);
-  } else if (value == 0){
-    document.getElementById("spanTranspose").innerHTML = String(value);
-  } else {
-    document.getElementById("spanTranspose").innerHTML = String(value);
-  }
-
-  localStorage.setItem("keyTranspose", value);
-  transpose = parseInt(value);
+function onOctaveDown(){
+  if(octave < -3) return;
+  octave--;
+  changeOctave()
 }
+
+function onOctaveUp(){
+  if(octave > 3) return;
+  octave++;
+  changeOctave()
+}
+
+function changeOctave() {
+  for (let [key, value] of octaveToSemitoneMap.entries()) {
+    if (key == octave){
+      transpose = value;
+      if (octave > 0) {
+        document.getElementById("spanOctave").innerHTML = "+" + String(octave);
+      } else if (octave == 0){
+        document.getElementById("spanOctave").innerHTML = String(octave);
+      } else {
+        document.getElementById("spanOctave").innerHTML = String(octave);
+      }
+      console.log("### Change Octave")
+      console.log("Octave: " + octave)
+      console.log("Transpose: " + transpose)
+      return;
+    }
+  }
+}
+
 
 function loadControllers(number) {
   var value;
@@ -726,7 +757,8 @@ function fileReaderImportAllLoad(event) {
 
   var result = restoreControllers();
   if (!result) {
-    onChangeTranspose(0);
+    octave = 0;
+    changeOctave()
     preset(7);
   }
 
@@ -754,7 +786,8 @@ function fileReaderImportCurrentLoad(event) {
 
   var result = restoreControllers();
   if (!result) {
-    onChangeTranspose(0);
+    octave = 0;
+    changeOctave()
     preset(7);
   }
 
@@ -866,37 +899,30 @@ function sustain(){
 function onKeyPress(keypress) {
   if(keypress == "m" || keypress == "M"){
     sustain()
-    return;
-  }
-
-  if(keypress == "."){
+  } else if(keypress === "."){
     setAllRandom()
-    return;
-  }
-
-  if(keypress == ","){
+  } else if(keypress === ","){
     panic()
-    return;
-  }
-
-  if(keypress == "-"){
-    onChangeTranspose(transpose-2);
-    console.log("Transpose: " + transpose)
-    return;
-  }
-  if(keypress == "="){
-    onChangeTranspose(transpose+2);
-    console.log("Transpose: " + transpose)
-    return;
-  }
-  //note on
-  for (let [key, value] of keyToNoteMap.entries()) {
-    if (key == String(keypress).toLowerCase()){
-      noteOn(value)
-      return
+  } else if(keypress === "-"){
+    onOctaveDown();
+  } else if(keypress === "="){
+    onOctaveUp();
+  } else {
+    //note on
+    for (let [key, value] of keyToNoteMap.entries()) {
+      if (key == String(keypress).toLowerCase()){
+        document.getElementById(value).style = "border: 1px solid white"
+        noteOn(value)
+        return;
+      }
     }
   }
+}
 
+function resetKeys() {
+  for (let [key, value] of keyToNoteMap.entries()) {
+      document.getElementById(value).style = "border: 1px solid orange;"
+  }
 }
 
 function onKeyUp(keypress) {
@@ -904,6 +930,7 @@ function onKeyUp(keypress) {
     //note off
     for (let [key, value] of keyToNoteMap.entries()) {
       if (key === String(keypress).toLowerCase()){
+        document.getElementById(value).style = "border: 1px solid orange;"
         noteOff(value)
         return
       }

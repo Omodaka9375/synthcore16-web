@@ -20,6 +20,8 @@ html {
     margin: auto;
 }
 
+
+
 .desc{
   font-size: smaller;
   margin-top: 0px;
@@ -55,7 +57,7 @@ h3 {
     background-color: #282828;
     border: none;
     color: white;
-    padding: 10px 32px;
+    padding: 5px 8px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -165,6 +167,7 @@ h3 {
     width: 100%;
     height: 600px;
     padding-bottom: 50px;
+    margin-bottom: 200px;
   }
 
   
@@ -306,6 +309,16 @@ td.key {
   border: 1px solid orange;
   cursor: pointer;
 }
+
+td.key:active {
+  color: orange;
+  text-align: center;
+  width: 42px;
+  height: 63px;
+  border: 1px solid rgb(245, 245, 245);
+  cursor: pointer;
+}
+
 td.keyb {
   color: white;
   background-color: orange;
@@ -313,6 +326,15 @@ td.keyb {
   width: 42px;
   height: 63px;
   border: 1px solid orange;
+  cursor: pointer;
+}
+td.keyb:active {
+  color: white;
+  background-color: orange;
+  text-align: center;
+  width: 42px;
+  height: 63px;
+  border: 1px solid rgb(255, 255, 255);
   cursor: pointer;
 }
 td.keyp {
@@ -331,4 +353,70 @@ td.keyh {
 
 random-button-sustain{
   background-color: #282828;
+}
+
+
+
+input[type="range"][disabled] {
+  border: 4px solid #fff !important;
+}
+
+
+.slider-column-keyboard {
+
+  background-color: #282828;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  width: 600px;
+  color: #f0c3a0;
+  border-radius: 8px;
+  -moz-border-radius: 15px; 
+  padding: 20px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.slider-column-keyboard label {
+  margin-bottom: 5px;
+  font-size: 17px;
+  color:whitesmoke;
+}
+
+
+.slider-column-keyboard input[type=range] {
+  -webkit-appearance: none;
+  width: 145px;
+  height: 12px;
+  margin: 8px;
+  background: #d52424;
+  outline: none;
+  cursor: pointer;
+  border: 2px solid #777;
+  border-radius: 15px;
+  -moz-border-radius: 15px;
+}
+
+.slider-column-keyboard input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  background: #555555;
+  cursor: pointer;
+  
+}
+
+.slider-column-keyboard input[type=range]:focus {
+  outline: none;
+}
+
+.slider-column-keyboard input[type=range]:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px #555555;
+
+}
+
+.octavebttn {
+  width: 50px;
+  margin-right: 10px;
 }
