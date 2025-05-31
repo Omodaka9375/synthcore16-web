@@ -24,7 +24,7 @@ All you need is Arduino Uno and couple of cheap components:
 
 ![SynthCore16 Board](./synthCore16-bread-board.png)
 
-## My setup (on breadboard)
+## My setup (using breadboard)
 ![SynthCore16 Prototype](./proto.jpg)
 
 
@@ -71,14 +71,24 @@ Here are some handy shortcutes:
 - ```-``` | octave down (-)
 - ```=``` | octave up (+)
 
+## Suggestion
+
+Power Arduino Uno from DC jack (7-12v) for less noise.  
+
 ## MIDI implementation chart
 
 [SynthCore16 MIDI](./SynthCore16-MIDI-Implementation-Chart.md)
 
 ## Parameter guide
 
-[SynthCore16 Parameters](./SSynthCore16-Parameter-Guide.md)
+[SynthCore16 Parameters](./SynthCore16-Parameter-Guide.md)
 
 ## Operation guide
 
-[SynthCore16 Operation](./SSynthCore16-Operation-Guide.md)
+[SynthCore16 Operation](./SynthCore16-Operation-Guide.md)
+
+
+## Author
+[Omodaka9375](https://github.com/Omodaka9375)
+
+<i>Inspired by risgk's [digital-synth-vra8](https://github.com/risgk/digital-synth-vra8-q)</i>
