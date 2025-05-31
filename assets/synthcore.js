@@ -587,7 +587,7 @@ function onChangeControlChange(number, value) {
   }
   if (midiOutput) {
     midiOutput.send([(CONTROL_CHANGE | MIDI_CH), number, parseInt(value)]);
-    sleep(100);
+    sleep(50);
   }
 }
 
