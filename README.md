@@ -62,6 +62,7 @@ All you need is Arduino Uno and couple of cheap components:
 
 ## Keyboard shortcuts
 You can use your keyboard to play the synth if you dont have any usb controlers at hand.
+All leters except ```m``` are playable notes.
 
 Here are some handy shortcutes:
 - ```m``` | sustain toggle
