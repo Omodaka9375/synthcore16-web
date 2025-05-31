@@ -57,7 +57,7 @@ All you need is Arduino Uno and couple of cheap components:
 - Import/export your presets to JSON file to your computer
 - Selectable midi input and output
 - 8 slots to save/load presets from memory
-- Supports pitchbend, velocity, modulation ans sustain
+- Supports pitchbend, velocity, modulation and sustain
 - Keyboard with octaves and key tracker (shows pressed keys on screen)
 
 
