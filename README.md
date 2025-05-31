@@ -14,7 +14,7 @@ All you need is Arduino Uno and couple of cheap components:
 3. 2 x 200 Ohm resistor  
 4. 2 x 56k Ohm resistor
 5. 2 x 10 microfarads capacitators
-6. 2 x 10 nanofarads capacitators
+6. 2 x 100 nanofarads capacitators
 
 ## Schematics
 
