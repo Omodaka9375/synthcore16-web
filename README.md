@@ -1,6 +1,6 @@
-# SynthCore16 Web
+# SynthCore16
 
-<b>SynthCore16</b> is a cheap, portable and decent sounding Arduino Uno synthesizer with least amount of components and no soldering required.<br>
+<b>SynthCore16</b> is a cheap, portable and decent sounding Arduino Uno synthesizer with least amount of components and no soldering required.<br><br>
 <b>SynthCore16 Web</b> is designed as a lightweight, portable UI for SynthCore16 synthesizer that can be controled directly from your web browser.
 
 ![SynthCore16](./synthCore16-UI.png)
