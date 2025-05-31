@@ -14,13 +14,87 @@
 </head>
 <body>
     <img src="assets/big-logo-trans.png" width="350">
+    <div class="slider-column-keyboard">
+      <table>
+          <tr>
+            <td colspan="2">Octave</td>
+            <td><button class="octavebttn" onclick="onOctaveDown()">-</button><button class="octavebttn" onclick="onOctaveUp()" >+</button><span id="spanOctave">0</span></td>
+            <td></td>
+          </tr>     
+        </table>
+      
+        <table>
+          <tr>
+            <td class="keyh"></td>
+            <td class="keyb" id="49" onContextmenu="return false" onmousedown="noteOn(49)" onmouseup="noteOff(49)"
+              ontouchstart="noteOn(49)" ontouchend="noteOff(49)">C#3</td>
+            <td class="keyb" id="51" onContextmenu="return false" onmousedown="noteOn(51)" onmouseup="noteOff(51)"
+              ontouchstart="noteOn(51)" ontouchend="noteOff(51)">D#3</td>
+            <td class="keyp"></td>
+            <td class="keyb" id="54" onContextmenu="return false" onmousedown="noteOn(54)" onmouseup="noteOff(54)"
+              ontouchstart="noteOn(54)" ontouchend="noteOff(54)">F#3</td>
+            <td class="keyb" id="56" onContextmenu="return false" onmousedown="noteOn(56)" onmouseup="noteOff(56)"
+              ontouchstart="noteOn(56)" ontouchend="noteOff(56)">G#3</td>
+            <td class="keyb" id="58" onContextmenu="return false" onmousedown="noteOn(58)" onmouseup="noteOff(58)"
+              ontouchstart="noteOn(58)" ontouchend="noteOff(58)">A#3</td>
+            <td class="keyp"></td>
+            <td class="keyb" id="61" onContextmenu="return false" onmousedown="noteOn(61)" onmouseup="noteOff(61)"
+              ontouchstart="noteOn(61)" ontouchend="noteOff(61)">C#4</td>
+            <td class="keyb" id="63" onContextmenu="return false" onmousedown="noteOn(63)" onmouseup="noteOff(63)"
+              ontouchstart="noteOn(63)" ontouchend="noteOff(63)">D#4</td>
+            <td class="keyp"></td>
+            <td class="keyb" id="66" onContextmenu="return false" onmousedown="noteOn(66)" onmouseup="noteOff(66)"
+              ontouchstart="noteOn(66)" ontouchend="noteOff(66)">F#4</td>
+            <td class="keyb" id="68" onContextmenu="return false" onmousedown="noteOn(68)" onmouseup="noteOff(68)"
+              ontouchstart="noteOn(68)" ontouchend="noteOff(68)">G#4</td>
+            <td class="keyb" id="70" onContextmenu="return false" onmousedown="noteOn(70)" onmouseup="noteOff(70)"
+              ontouchstart="noteOn(70)" ontouchend="noteOff(70)">A#4</td>
+            <td class="keyp"></td>
+            <td class="keyh"></td>
+          </tr>
+        </table>
+      
+        <table>
+          <tr>
+            <td class="key" id="48" onContextmenu="return false" onmousedown="noteOn(48)" onmouseup="noteOff(48)"
+              ontouchstart="noteOn(48)" ontouchend="noteOff(48)">C3</td>
+            <td class="key" id="50" onContextmenu="return false" onmousedown="noteOn(50)" onmouseup="noteOff(50)"
+              ontouchstart="noteOn(50)" ontouchend="noteOff(50)">D3</td>
+            <td class="key" id="52" onContextmenu="return false" onmousedown="noteOn(52)" onmouseup="noteOff(52)"
+              ontouchstart="noteOn(52)" ontouchend="noteOff(52)">E3</td>
+            <td class="key" id="53" onContextmenu="return false" onmousedown="noteOn(53)" onmouseup="noteOff(53)"
+              ontouchstart="noteOn(53)" ontouchend="noteOff(53)">F3</td>
+            <td class="key" id="55" onContextmenu="return false" onmousedown="noteOn(55)" onmouseup="noteOff(55)"
+              ontouchstart="noteOn(55)" ontouchend="noteOff(55)">G3</td>
+            <td class="key" id="57" onContextmenu="return false" onmousedown="noteOn(57)" onmouseup="noteOff(57)"
+              ontouchstart="noteOn(57)" ontouchend="noteOff(57)">A3</td>
+            <td class="key" id="59" onContextmenu="return false" onmousedown="noteOn(59)" onmouseup="noteOff(59)"
+              ontouchstart="noteOn(59)" ontouchend="noteOff(59)">B3</td>
+            <td class="key" id="60" onContextmenu="return false" onmousedown="noteOn(60)" onmouseup="noteOff(60)"
+              ontouchstart="noteOn(60)" ontouchend="noteOff(60)">C4</td>
+            <td class="key" id="62" onContextmenu="return false" onmousedown="noteOn(62)" onmouseup="noteOff(62)"
+              ontouchstart="noteOn(62)" ontouchend="noteOff(62)">D4</td>
+            <td class="key" id="64" onContextmenu="return false" onmousedown="noteOn(64)" onmouseup="noteOff(64)"
+              ontouchstart="noteOn(64)" ontouchend="noteOff(64)">E4</td>
+            <td class="key" id="65" onContextmenu="return false" onmousedown="noteOn(65)" onmouseup="noteOff(65)"
+              ontouchstart="noteOn(65)" ontouchend="noteOff(65)">F4</td>
+            <td class="key" id="67" onContextmenu="return false" onmousedown="noteOn(67)" onmouseup="noteOff(67)"
+              ontouchstart="noteOn(67)" ontouchend="noteOff(67)">G4</td>
+            <td class="key" id="69" onContextmenu="return false" onmousedown="noteOn(69)" onmouseup="noteOff(69)"
+              ontouchstart="noteOn(69)" ontouchend="noteOff(69)">A4</td>
+            <td class="key" id="71" onContextmenu="return false" onmousedown="noteOn(71)" onmouseup="noteOff(71)"
+              ontouchstart="noteOn(71)" ontouchend="noteOff(71)">B4</td>
+            <td class="key" id="72" onContextmenu="return false" onmousedown="noteOn(72)" onmouseup="noteOff(72)"
+              ontouchstart="noteOn(72)" ontouchend="noteOff(72)">C5</td>
+          </tr>
+        </table>
+       
+  </div>
 	<!-- Top of page with dropdown menus and preset buttons -->
 	<div class="top-section">
     <br>
-    <label for="selectMidiChannel">Ch: 1</label>
-    <br>
 		<!-- Dropdown menu for MIDI output selection -->
-		<label for="selectOutputPort"> MIDI In:</label>
+		<label for="selectOutputPort">MIDI In:</label>
 		<select id="selectOutputPort" size="1" onchange="onChangeOutputPort()" name="midi-out">
 		</select>
     <!-- Dropdown menus for MIDI input controller selection -->
@@ -38,6 +112,7 @@
             <option value="6">Saw [Para]</option>
             <option value="7" selected>Initial [Legato]</option>
 		</select>
+        <p id="chnnl" style="display: inline-block; margin-right: 18px; margin-left:10px;">Channel: 1</p>
         <p id="pitch" style="display: inline-block; margin-right: 18px; margin-left:10px;">Pitch Bend: <span id="spanPB">-</span> </p>
         <p id="velocity" style="display: inline-block; margin-right: 18px;">Velocity: <span id="spanVelocity">-</span> </p>
         <p id="mod" style="display: inline-block; margin-right: 18px;">Modulation: <span id="spanMODULATION">-</span> </p>
@@ -79,7 +154,9 @@
 	</div>
 	<!-- Main content with vertical sliders -->
     <hr>
-    
+
+
+
 	<div class="slider-section">
 		<!-- Column 1 -->
 		<div class="slider-column">
@@ -301,81 +378,7 @@
         </div>
     </div>
     <br><br><br>
-    <div class="slider-column-keyboard">
-        <table>
-            <tr>
-              <td colspan="2">Octave</td>
-              <td><button class="octavebttn" onclick="onOctaveDown()">-</button><button class="octavebttn" onclick="onOctaveUp()" >+</button><span id="spanOctave">0</span></td>
-              <td></td>
-            </tr>     
-          </table>
-        
-          <table>
-            <tr>
-              <td class="keyh"></td>
-              <td class="keyb" id="49" onContextmenu="return false" onmousedown="noteOn(49)" onmouseup="noteOff(49)"
-                ontouchstart="noteOn(49)" ontouchend="noteOff(49)">C#3</td>
-              <td class="keyb" id="51" onContextmenu="return false" onmousedown="noteOn(51)" onmouseup="noteOff(51)"
-                ontouchstart="noteOn(51)" ontouchend="noteOff(51)">D#3</td>
-              <td class="keyp"></td>
-              <td class="keyb" id="54" onContextmenu="return false" onmousedown="noteOn(54)" onmouseup="noteOff(54)"
-                ontouchstart="noteOn(54)" ontouchend="noteOff(54)">F#3</td>
-              <td class="keyb" id="56" onContextmenu="return false" onmousedown="noteOn(56)" onmouseup="noteOff(56)"
-                ontouchstart="noteOn(56)" ontouchend="noteOff(56)">G#3</td>
-              <td class="keyb" id="58" onContextmenu="return false" onmousedown="noteOn(58)" onmouseup="noteOff(58)"
-                ontouchstart="noteOn(58)" ontouchend="noteOff(58)">A#3</td>
-              <td class="keyp"></td>
-              <td class="keyb" id="61" onContextmenu="return false" onmousedown="noteOn(61)" onmouseup="noteOff(61)"
-                ontouchstart="noteOn(61)" ontouchend="noteOff(61)">C#4</td>
-              <td class="keyb" id="63" onContextmenu="return false" onmousedown="noteOn(63)" onmouseup="noteOff(63)"
-                ontouchstart="noteOn(63)" ontouchend="noteOff(63)">D#4</td>
-              <td class="keyp"></td>
-              <td class="keyb" id="66" onContextmenu="return false" onmousedown="noteOn(66)" onmouseup="noteOff(66)"
-                ontouchstart="noteOn(66)" ontouchend="noteOff(66)">F#4</td>
-              <td class="keyb" id="68" onContextmenu="return false" onmousedown="noteOn(68)" onmouseup="noteOff(68)"
-                ontouchstart="noteOn(68)" ontouchend="noteOff(68)">G#4</td>
-              <td class="keyb" id="70" onContextmenu="return false" onmousedown="noteOn(70)" onmouseup="noteOff(70)"
-                ontouchstart="noteOn(70)" ontouchend="noteOff(70)">A#4</td>
-              <td class="keyp"></td>
-              <td class="keyh"></td>
-            </tr>
-          </table>
-        
-          <table>
-            <tr>
-              <td class="key" id="48" onContextmenu="return false" onmousedown="noteOn(48)" onmouseup="noteOff(48)"
-                ontouchstart="noteOn(48)" ontouchend="noteOff(48)">C3</td>
-              <td class="key" id="50" onContextmenu="return false" onmousedown="noteOn(50)" onmouseup="noteOff(50)"
-                ontouchstart="noteOn(50)" ontouchend="noteOff(50)">D3</td>
-              <td class="key" id="52" onContextmenu="return false" onmousedown="noteOn(52)" onmouseup="noteOff(52)"
-                ontouchstart="noteOn(52)" ontouchend="noteOff(52)">E3</td>
-              <td class="key" id="53" onContextmenu="return false" onmousedown="noteOn(53)" onmouseup="noteOff(53)"
-                ontouchstart="noteOn(53)" ontouchend="noteOff(53)">F3</td>
-              <td class="key" id="55" onContextmenu="return false" onmousedown="noteOn(55)" onmouseup="noteOff(55)"
-                ontouchstart="noteOn(55)" ontouchend="noteOff(55)">G3</td>
-              <td class="key" id="57" onContextmenu="return false" onmousedown="noteOn(57)" onmouseup="noteOff(57)"
-                ontouchstart="noteOn(57)" ontouchend="noteOff(57)">A3</td>
-              <td class="key" id="59" onContextmenu="return false" onmousedown="noteOn(59)" onmouseup="noteOff(59)"
-                ontouchstart="noteOn(59)" ontouchend="noteOff(59)">B3</td>
-              <td class="key" id="60" onContextmenu="return false" onmousedown="noteOn(60)" onmouseup="noteOff(60)"
-                ontouchstart="noteOn(60)" ontouchend="noteOff(60)">C4</td>
-              <td class="key" id="62" onContextmenu="return false" onmousedown="noteOn(62)" onmouseup="noteOff(62)"
-                ontouchstart="noteOn(62)" ontouchend="noteOff(62)">D4</td>
-              <td class="key" id="64" onContextmenu="return false" onmousedown="noteOn(64)" onmouseup="noteOff(64)"
-                ontouchstart="noteOn(64)" ontouchend="noteOff(64)">E4</td>
-              <td class="key" id="65" onContextmenu="return false" onmousedown="noteOn(65)" onmouseup="noteOff(65)"
-                ontouchstart="noteOn(65)" ontouchend="noteOff(65)">F4</td>
-              <td class="key" id="67" onContextmenu="return false" onmousedown="noteOn(67)" onmouseup="noteOff(67)"
-                ontouchstart="noteOn(67)" ontouchend="noteOff(67)">G4</td>
-              <td class="key" id="69" onContextmenu="return false" onmousedown="noteOn(69)" onmouseup="noteOff(69)"
-                ontouchstart="noteOn(69)" ontouchend="noteOff(69)">A4</td>
-              <td class="key" id="71" onContextmenu="return false" onmousedown="noteOn(71)" onmouseup="noteOff(71)"
-                ontouchstart="noteOn(71)" ontouchend="noteOff(71)">B4</td>
-              <td class="key" id="72" onContextmenu="return false" onmousedown="noteOn(72)" onmouseup="noteOff(72)"
-                ontouchstart="noteOn(72)" ontouchend="noteOff(72)">C5</td>
-            </tr>
-          </table>
-    </div>
+
 
 <div id="footer">
   Made with ❤ by <a href="https://github.com/Omodaka9375/synthcore16-web" target="_blank">Omodaka9375</a>
