@@ -1,6 +1,6 @@
 # SynthCore16
 
-<b>SynthCore16</b> is a cheap, portable and decent sounding Arduino Uno synthesizer with least amount of components and no soldering required.<br><br>
+<b>SynthCore16</b> is a cheap, portable and "decent" sounding Arduino Uno synthesizer with least amount of components and no soldering required.<br><br>
 <b>SynthCore16 Web</b> is designed as a lightweight, portable UI for SynthCore16 synthesizer that can be controled directly from your web browser.
 
 ![SynthCore16](./synthCore16-UI.png)
@@ -42,7 +42,6 @@ All you need is Arduino Uno and couple of cheap components:
 ## Features
 
 ### Sound:
-- <b>Max polyphony is 6</b>
 - <b>3 modes</b> (Paraphonic, Mono, Legato)
 - <b>2 x Oscillators</b> (Saw, Triangle, Noise, Pulse with coarse, shape, morph and sub control)
 - <b>Filter</b> (cutoff/resonance)
